@@ -152,7 +152,7 @@ def send_message(event,message):
             TextSendMessage(text=message))
 
 
-#### (myown) function for sending image message ##
+#### function for sending image message ##
 def send_image(event,image_url):
      line_bot_api.reply_message(
           event.reply_token,ImageSendMessage(original_content_url = image_url, preview_image_url = image_url)
