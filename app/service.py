@@ -66,8 +66,6 @@ def handle_text_message(event):
     adjusted_minute             = minute - (minute % 10)
     result                      = f"{day:02}{month:02}{hour:02}{adjusted_minute:02}"
 
-    # # aiforthai multimodal chat
-    # text = textqa.chat(event.message.text, result+AIFORTHAI_APIKEY)['response']
 
     ### save previous text from user ###
     user_messages[event.source.user_id]  = event.message.text
