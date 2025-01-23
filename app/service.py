@@ -25,6 +25,8 @@ from aift.image.classification import nsfw
 from aift.image import super_resolution
 from aift.image.detection import handwritten
 from datetime import datetime
+import requests 
+
 
 router = APIRouter(
             tags=['']
@@ -155,3 +157,41 @@ def send_image(event,image_url):
      line_bot_api.reply_message(
           event.reply_token,ImageSendMessage(original_content_url = image_url, preview_image_url = image_url)
      )
+##### function for convert http into https ####
+def convert_http_to_https(url):
+    """
+     Converts a given URL from HTTP to HTTPS.
+
+  Args:
+    url: The URL string to be converted.
+
+  Returns:
+    The URL string with "http://" replaced by "https://".
+    If the URL already starts with "https://", it remains unchanged.
+    """
+    if url.startswith("http://"):
+        return url.replace("http://", "https://", 1)
+    else:
+        return url
+
+
+
+#### function for person detection api for aiforthai ####
+def person_detection(AIFORTHAI_APIKEY, image_dir):
+    """
+    Copy code from AI for Thai 
+    """
+    url                 = "https://api.aiforthai.in.th/person/human_detect/"
+    files               = {'src_img':open(image_dir, 'rb')} ### input image dir here ###
+    data                = {'json_export':'true','img_export':'true'}
+    headers             = {'Apikey': AIFORTHAI_APIKEY}
+    
+    response            = requests.post(url, files=files, headers=headers, data=data)
+    response            = response.json()['human_img']
+    response            = convert_http_to_https(response)
+    return response
+
+
+
+
+    
